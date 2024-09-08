@@ -1,0 +1,18 @@
+# This defines a default set of lint rules enforced by the Dart Analyzer.
+# You can customize it as needed.
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    # Some additional lints to enforce good practices:
+    always_declare_return_types: true
+    avoid_print: true
+    curly_braces_in_flow_control_structures: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    avoid_unnecessary_containers: true
+    sized_box_for_whitespace: true
+
+analyzer:
+  exclude:
+    - '**/*.g.dart' # Exclude generated files from analysis
