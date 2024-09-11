@@ -1,4 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+const String apiUrl = 'http://172.16.45.24:8000';
 
 void main() => runApp(MyApp());
 
@@ -75,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Home Screen Content
+//mport 'package:flutter/material.dart';
+
 class HomeScreenContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -201,6 +208,88 @@ class HomeScreenContent extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Predicted Power Generation',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          height: MediaQuery.of(context).size.width / 2.0,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[900],
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.purple.withOpacity(0.5),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Predicted Power Generation Graph',
+                              style: TextStyle(
+                                color: Colors.grey[500],
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Predicted Power Consumed',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          height: MediaQuery.of(context).size.width / 2.0,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[900],
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.purple.withOpacity(0.5),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Predicted Power Consumed Graph',
+                              style: TextStyle(
+                                color: Colors.grey[500],
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -248,339 +337,157 @@ class HomeScreenContent extends StatelessWidget {
     );
   }
 }
+
+
 // Weather Screen
 class WeatherScreen extends StatelessWidget {
+  Future<Map<String, dynamic>> fetchWeatherData() async {
+    final response = await http.get(Uri.parse('$apiUrl/weather_advice/'));
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load weather data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text(
-          'Weather Forecast',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Today's Weather Forecast
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.purple.withOpacity(0.5),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: const Column(
-                children: [
-                  Icon(Icons.wb_sunny, size: 80, color: Colors.yellow),
-                  SizedBox(height: 16),
-                  Text(
-                    'Sunny',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '25°C',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.water_drop, size: 24, color: Colors.blue),
-                      SizedBox(width: 8),
-                      Text(
-                        'Rainfall: 30%',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.cloud, size: 24, color: Colors.grey),
-                      SizedBox(width: 8),
-                      Text(
-                        'Humidity: 60%',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 32),
-            // 10-Day Forecast
-            const Text(
-              '10-Day Forecast',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    width: 200, // Increased width of the box
-                    height: 60, // Increased height of the box
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(4),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.purple.withOpacity(0.5),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              index % 2 == 0 ? Icons.wb_sunny : Icons.cloud,
-                              size: 24, // Increased icon size
-                              color: Colors.yellow,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'D${index + 1}',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16, // Increased text size
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              '${20 + index}°C',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16, // Increased text size
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              'Rain: ${10 + index}%',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16, // Increased text size
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-
-
-
-// Data Analytics Screen
-class DataAnalyticsScreen extends StatefulWidget {
-  @override
-  _DataAnalyticsScreenState createState() => _DataAnalyticsScreenState();
-}
-
-class _DataAnalyticsScreenState extends State<DataAnalyticsScreen> {
-  String _selectedPeriod = 'Day';
-  List<Map<String, String>> _statsList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _updateDataForPeriod(_selectedPeriod);
-  }
-
-  void _updateDataForPeriod(String period) {
-    // This is where you'd update your data based on the selected period
-    setState(() {
-      _statsList = List.generate(
-        5,
-        (index) => {
-          'label': 'Stat ${index + 1}',
-          'value': '${(index + 1) * 10} kWh',
-        },
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text(
-          'Analytics Dashboard',
+          'Weather',
           style: TextStyle(
             color: Colors.white,
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsScreen()),
-              );
-            },
-          ),
-        ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Date Range Selection
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildTabButton('Day'),
-                  _buildTabButton('Week'),
-                  _buildTabButton('Month'),
-                ],
-              ),
-            ),
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: fetchWeatherData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            print('Error: ${snapshot.error}');
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData) {
+            return const Center(child: Text('No data found'));
+          }
 
-            // Graph Area
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.width / 1.5, // Adjusted height for aspect ratio
-                    decoration: BoxDecoration(
-                      color: Colors.grey[900],
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.purple.withOpacity(0.5),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Graph for $_selectedPeriod', // Display Graph
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ),
+          final data = snapshot.data!;
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Weather Data',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                // Display weather data here
+                Text('data:${data['suggestion']['current']['temp_c']}'),
+                Text('Temperature: ${data['temp_c'] ?? 'N/A'}'),
+                Text('Humidity: ${data['humidity'] ?? 'N/A'}'),
+              ],
             ),
-
-            // Power Stats
-            Expanded(
-              child: ListView.builder(
-                itemCount: _statsList.length,
-                itemBuilder: (context, index) {
-                  final stat = _statsList[index];
-                  return Card(
-                    margin: const EdgeInsets.all(8.0),
-                    color: Colors.grey[900],
-                    child: ListTile(
-                      title: Text(
-                        '${stat['label']}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        '${stat['value']}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
+}
 
-  Widget _buildTabButton(String period) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: _selectedPeriod == period ? Colors.purple : Colors.grey[800],
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+// Maintenance Screen
+class MaintenanceScreen extends StatelessWidget {
+  Future<Map<String, dynamic>> fetchMaintenanceData() async {
+    final response = await http.get(Uri.parse('$apiUrl/maintenance_data/'));
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load maintenance data');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Maintenance',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-      onPressed: () {
-        setState(() {
-          _selectedPeriod = period;
-          _updateDataForPeriod(period);
-        });
-      },
-      child: Text(
-        period,
-        style: const TextStyle(color: Colors.white),
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: fetchMaintenanceData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            print('Error: ${snapshot.error}');
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData) {
+            return const Center(child: Text('No data found'));
+          }
+
+          final data = snapshot.data!;
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Maintenance Data',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Display maintenance data here
+                Text('Last Check: ${data['last_check'] ?? 'N/A'}'),
+                Text('Next Check: ${data['next_check'] ?? 'N/A'}'),
+              ],
+            ),
+          );
+        },
       ),
+    );
+  }
+}
+
+// Data Analytics Screen
+class DataAnalyticsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Analytics',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: const Center(child: Text('Data Analytics Content')),
     );
   }
 }
@@ -640,78 +547,6 @@ class SettingsScreen extends StatelessWidget {
               onTap: () {
                 // Handle Logout
               },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Maintenance Screen
-class MaintenanceScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text(
-          'Maintenance',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Maintenance Status',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.purple.withOpacity(0.5),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: const Column(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.warning, color: Colors.red),
-                    title: Text('System Check'),
-                    subtitle: Text('Last checked: 24 hours ago'),
-                  ),
-                  Divider(),
-                  ListTile(
-                    leading: Icon(Icons.refresh, color: Colors.orange),
-                    title: Text('Pending Updates'),
-                    subtitle: Text('4 updates pending'),
-                  ),
-                  Divider(),
-                  ListTile(
-                    leading: Icon(Icons.check_circle, color: Colors.green),
-                    title: Text('Maintenance Completed'),
-                    subtitle: Text('No pending maintenance tasks'),
-                  ),
-                ],
-              ),
             ),
           ],
         ),

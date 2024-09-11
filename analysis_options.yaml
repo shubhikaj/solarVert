@@ -1,6 +1,6 @@
 # This defines a default set of lint rules enforced by the Dart Analyzer.
 # You can customize it as needed.
-include: package:flutter_lints/flutter.yaml
+# include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:

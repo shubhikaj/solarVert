@@ -12,12 +12,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  http: ^1.2.2
+  
+  
   # Add any additional packages here
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 # The following section is specific to Flutter.
 flutter:
