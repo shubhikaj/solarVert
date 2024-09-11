@@ -1,14 +1,10 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 const String apiUrl = 'http://172.16.45.24:8000';
-=======
-import 'api_service.dart'; // Import the API service
->>>>>>> d55e2b7c3e17076f517d175048a5396dd0d79323
 
 void main() => runApp(MyApp());
 
@@ -253,7 +249,6 @@ class HomeScreenContent extends StatelessWidget {
                   ],
                 ),
               ),
-<<<<<<< HEAD
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -437,9 +432,6 @@ class HomeScreenContent extends StatelessWidget {
           ),
         ),
       ),
-=======
-            ),
->>>>>>> d55e2b7c3e17076f517d175048a5396dd0d79323
     );
   }
 
