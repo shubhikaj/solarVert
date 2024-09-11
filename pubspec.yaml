@@ -12,9 +12,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+<<<<<<< HEAD
   http: ^1.2.2
   
   
+=======
+  http: ^0.13.3
+
+>>>>>>> d55e2b7c3e17076f517d175048a5396dd0d79323
   # Add any additional packages here
 
 dev_dependencies:
@@ -24,5 +29,4 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   uses-material-design: true
